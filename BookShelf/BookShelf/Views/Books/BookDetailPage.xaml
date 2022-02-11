@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BookShelf.Views.Books.BookDetailPage"
+             xmlns:model="clr-namespace:BookShelf.Models"
+             x:DataType="model:Book"
+             Title="{Binding BookTitle}">
+    <ContentPage.Content>
+        <Grid Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition 
+                    Height="60"/>
+                <RowDefinition 
+                    Height="60"/>
+                <RowDefinition 
+                    Height="60"/>
+                <RowDefinition
+                    Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition 
+                    Width="120"/>
+                <ColumnDefinition 
+                    Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Column="0"
+                Grid.RowSpan="2"
+                HorizontalOptions="Center"
+                Source="{Binding Image}"/>
+            <Label 
+                Grid.Column="1"
+                Grid.Row="0"
+                Padding="10,0,0,0"
+                FontSize="Title"
+                Text="{Binding BookTitle, StringFormat='Tytuł: {0}'}"/>
+            <Label 
+                Grid.Column="1"
+                Grid.Row="1"
+                Padding="10,0,0,0"
+                FontSize="Large"
+                Text="{Binding Author, StringFormat='Autor: {0}'}"/>
+            <Label 
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                Padding="10,0,0,0"
+                FontSize="Large"
+                Text="{Binding Genre, StringFormat='Gatunek: {0}'}"/>
+            <Label 
+                Grid.ColumnSpan="2"
+                Grid.Row="3"
+                Padding="10"
+                FontSize="Medium"
+                Text="{Binding Description, StringFormat='Opis książki: {0}'}"/>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

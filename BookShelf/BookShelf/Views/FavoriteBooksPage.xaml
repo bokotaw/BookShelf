@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BookShelf.Views.FavoriteBooksPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:BookShelf.Models"
+    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+    xmlns:viewmodels="clr-namespace:BookShelf.ViewModels"
+    x:DataType="viewmodels:BookViewModel"
+    BackgroundColor="BlanchedAlmond">
+    <ContentPage.BindingContext>
+        <viewmodels:BookViewModel />
+    </ContentPage.BindingContext>
+
+    <ListView
+        CachingStrategy="RecycleElement"
+        BackgroundColor="Transparent"
+        HasUnevenRows="True"
+        ItemsSource="{Binding Book}"
+        SeparatorVisibility="None"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        RefreshCommand="{Binding RefreshFavCommand}"
+        RefreshControlColor="Red">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Book">
+                <ViewCell>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="5" HasShadow="True"
+                               BackgroundColor="Bisque">
+                            <StackLayout Orientation="Horizontal"
+                                         BackgroundColor="Bisque">
+                                <Image Source="{Binding Image}" WidthRequest="66" />
+                                <StackLayout VerticalOptions="Center">
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding BookTitle}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Author}"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <StackLayout BackgroundColor="Bisque"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand"
+                             Padding="30,20,30,20">
+                    <Label Text="Moja ulubione książki"
+                           FontSize="Large"
+                           FontAttributes="Bold" />
+                </StackLayout>
+            </StackLayout>
+        </ListView.Header>
+    </ListView>
+
+</ContentPage>

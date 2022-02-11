@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BookShelf.Views.BooksPage"
+             xmlns:viewmodels="clr-namespace:BookShelf.ViewModels"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:model="clr-namespace:BookShelf.Models"
+             x:Name="BooksViewPage"
+             BackgroundColor="BlanchedAlmond">
+    <ContentPage.BindingContext>
+        <viewmodels:BookViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+ Dodaj książkę" Command="{Binding AddCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <RefreshView
+        Command="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        RefreshColor="Brown">
+        <CollectionView
+            BackgroundColor="Transparent"
+            IsGrouped="False"
+            ItemSizingStrategy="MeasureAllItems"
+            ItemsLayout="VerticalList"
+            ItemsSource="{Binding Book}"
+            RemainingItemsThreshold="1"
+            RemainingItemsThresholdReachedCommand="{Binding DelayLoadMoreCommand}"  
+            SelectionMode="Single">
+
+            <CollectionView.EmptyView>
+                <StackLayout Padding="12">
+                    <Label HorizontalOptions="Center" Text="Brak książek"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Book">
+                    <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BookViewModel}}, Path=FavoriteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Ulubione"
+                                        BackgroundColor="Gold"
+                                        IconImageSource="favorite.png"/>
+                                <SwipeItem
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BookViewModel}}, Path=ReadCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Przeczytane"
+                                        BackgroundColor="LightGreen"
+                                        IconImageSource="read.png"/>
+                                <SwipeItem
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BookViewModel}}, Path=SelectedCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Więcej"
+                                        BackgroundColor="LightBlue"
+                                        IconImageSource="icon_about.png"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BookViewModel}}, Path=RemoveCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Usuń"
+                                        BackgroundColor="LightPink"
+                                        IconImageSource="delete.png"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <Grid Padding="10" BackgroundColor="BlanchedAlmond">
+                            <Frame CornerRadius="5" 
+                                   HasShadow="True" 
+                                   BackgroundColor="Bisque">
+                                <StackLayout Orientation="Horizontal" 
+                                             BackgroundColor="Bisque">
+                                    <Image Source="{Binding Image}" 
+                                           WidthRequest="120"
+                                           HeightRequest="40"/>
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label VerticalOptions="Center"
+                                               FontSize="Medium"
+                                               Text="{Binding BookTitle}"/>
+                                        <Label VerticalOptions="Center"
+                                                FontSize="Medium"
+                                                FontAttributes="Italic"
+                                                Text="{Binding Author}"/>
+                                        <Label VerticalOptions="Center"
+                                                FontSize="Medium"
+                                                FontAttributes="Italic"
+                                                Text="{Binding Genre}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Header>
+                <StackLayout BackgroundColor="Bisque"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand"
+                             Padding="30,20,30,20">
+                    <Label Text="Moja Biblioteka"
+                           FontSize="Large"
+                           FontAttributes="Bold" />
+                </StackLayout>
+            </CollectionView.Header>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

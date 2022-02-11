@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BookShelf.Views.AddBookPage"
+             xmlns:viewmodels="clr-namespace:BookShelf.ViewModels"
+             Title="{Binding Title}"
+             x:DataType="viewmodels:AddBookViewModel"
+             Shell.PresentationMode="Modal">
+    <ContentPage.BindingContext>
+        <viewmodels:AddBookViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Label Text="Tytuł książki:"
+                   FontSize="Medium"/>
+            <Entry Text="{Binding BookTitle}"/>
+            <Label Text="Autor książki:"
+                   FontSize="Medium"/>
+            <Entry Text="{Binding Author}"/>
+            <Label Text="Opis książki:"
+                   FontSize="Medium"/>
+            <Entry Text="{Binding Desc}"/>
+            <Label Text="Gatunek książki:"
+                   FontSize="Medium"/>
+            <Entry Text="{Binding Genre}"/>
+
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding IsFavorite}" />
+                <Label Text="Dodaj do ulubionych" FontSize="Large" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding IsRead}"/>
+                <Label Text="Dodaj do przeczytanych" FontSize="Large"/>
+            </StackLayout>
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"/>
+
+            <Button
+                Padding="20,0"
+                Command="{Binding SaveCommand}"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Zapisz"
+                VerticalOptions="EndAndExpand"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
